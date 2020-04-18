@@ -1,6 +1,6 @@
 module.exports = {
 
-  title: '百度 知道团队',
+  title: '平凡的世界',
 
   /**
    * @type {boolean} true | false
