@@ -1,16 +1,18 @@
 import request from '@/utils/request'
+import qs from 'qs'
 
 export function login(data) {
   return request({
-    url: '/vue-admin-template/user/login',
+    url: '/login',
+    // url: '/vue-admin-template/user/login',
     method: 'post',
-    data
+    data: qs.stringify(data)
   })
 }
 
 export function getInfo(token) {
   return request({
-    url: '/vue-admin-template/user/info',
+    url: '/admin/info',
     method: 'get',
     params: { token }
   })

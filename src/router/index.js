@@ -51,7 +51,38 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: 'Dashboard', icon: 'dashboard' }
+      meta: { title: '首页', icon: 'dashboard' }
+    }]
+  },
+  {
+    path: '/team',
+    component: Layout,
+    children: [{
+      path: '/team/:teamId',
+      name: 'Team',
+      component: () => import('@/views/team/member'),
+      props: true,
+      hidden: true,
+    }]
+  },
+  {
+    path: '/pf',
+    component: Layout,
+    children: [{
+      path: '/team/3010',
+      redirect: '/team/:teamId',
+      name: 'pf',
+      meta: { title: '平凡的世界', icon: 'peoples' }
+    }]
+  },
+  {
+    path: '/jj',
+    component: Layout,
+    redirect: '/team/:teamId',
+    children: [{
+      path: '/team/3824',
+      name: 'jj',
+      meta: { title: '家居生活', icon: 'peoples' }
     }]
   },
 

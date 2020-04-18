@@ -1,5 +1,15 @@
 language: node_js
-node_js: 10
-script: npm run test
-notifications:
-  email: false
+node_js:
+  - node
+cache: yarn
+script: yarn build:prod
+deploy:
+  provider: pages
+  skip_cleanup: true
+  github_token: "$GITHUB_TOKEN"
+  local_dir: dist
+  on:
+    branch: master
+env:
+  global:
+    - secure: DRCEdeeJvQAm+K8IkHV1f6gpFdZ9YrXjnbAVVknJyqXRgczMHH+V68c588rAc+6dnqtDltY0p9UXOHkpVPAMXZ9HyOCk9TWnmJtnIvRIaj8dhpRwCfuIlQLMUZe+Sa16F5wT0jBwCyCx3qPTMwdctX11eyaUK1DzZpZQzQS7U1gjUnClhY2BngOmxKSiWa+OGHy60Vge6BkIKaV0/cq5sttDezYegTEtGTiwkDXM5ND8ADMdz7zxb/ivI6QK4DGdkUQ/jKHAP2WfKdJ4VTEglz1IdYiPEhxy73FYu4kwitthQEAFgqdPGgE7abFQ3QYG1MUw2NT79NohJP5YI3sDpWiwme8lJ31kVJLapW5JkBbgo11A00WFEDQ9woeiNmZUlpGT8pbOk7Gozwl/RE9yrww9gHK3r5vB5u9jx0X7+g8ylzIDnKgNo90hiQJBlNQaPLXg6SPuKqtCwgr3reE5L8Vb2Kqy65Vc51uuFeRbegfdl8Oehg3LNbuCBQgXfhXrZoQZVAuDNXqJO15dnAQta2AYfGTSjAqTgcatvRY62CM4TrR6e+Gr7QY7UUJ/Yw1gFnEa0W/rdAa4HTf2Lo32/2+vcrw/2rPqFOr1cjEp9NQaaFNPzCD5aool8uK+F/nlxzfIVN+phPTjwmpG7MkQDcEKsBG0Z/QfKHFK7y75PeA=
