@@ -1,7 +1,9 @@
 <template>
   <section class="app-main">
     <transition name="fade-transform" mode="out-in">
-      <router-view :key="key" />
+      <!--<keep-alive :include="cachedViews">-->
+      <router-view :key="key" /> <!--如果不需要tab，只保留这行就行-->
+      <!--</keep-alive>-->
     </transition>
   </section>
 </template>

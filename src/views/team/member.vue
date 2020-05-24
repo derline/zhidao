@@ -1,130 +1,140 @@
 <template>
-  <div class="app-container">
-    <el-table
-      :key="tableKey"
-      v-loading="listLoading"
-      :data="list"
-      :border="false"
-      size="mini"
-      style="width: 100%;"
-      row-key="uid"
-      @sort-change="sortChange"
-    >
-      <el-table-column type="index" width="50" />
-      <el-table-column label="用户名" width="200">
-        <template slot-scope="{row}">
-          <span class="link-type">{{ row.username }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="采纳" width="110px" align="right">
-        <template slot-scope="{row}">
-          <span>{{ row.resolveNum }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="回答" width="110px" align="right">
-        <template slot-scope="{row}">
-          {{ row.answerNum }}
-        </template>
-      </el-table-column>
-      <el-table-column label="%" width="80px" align="right">
-        <template slot-scope="{row}">
-          {{ row.resolveRate }}
-        </template>
-      </el-table-column>
-      <el-table-column label="已休" align="right" width="95">
-        <template slot-scope="{row}">
-          {{ row.stopDays }}
-        </template>
-      </el-table-column>
-      <el-table-column label="总假期" align="right" width="95">
-        <template slot-scope="{row}">
-          {{ row.totalHolidays }}
-        </template>
-      </el-table-column>
-      <el-table-column label="考核周期" align="right" width="95">
-        <template slot-scope="{row}">
-          {{ row.kpiHolidays }}
-        </template>
-      </el-table-column>
-      <el-table-column label="团龄假期" align="right" width="95">
-        <template slot-scope="{row}">
-          {{ row.ageHolidays }}
-        </template>
-      </el-table-column>
-      <el-table-column label="最后答" align="center" width="95">
-        <template slot-scope="{row}">
-          {{ row.ansDateStr }}
-        </template>
-      </el-table-column>
-      <el-table-column label="团龄" align="center" width="95">
-        <template slot-scope="{row}">
-          {{ row.joinTimeStr }}
-        </template>
-      </el-table-column>
-      <el-table-column label="kpi" align="right" width="95">
-        <template slot-scope="{row}">
-          {{ row.kpi }}
-        </template>
-      </el-table-column>
-      <el-table-column label="更新时间" align="center" width="150">
-        <template slot-scope="{row}">
-          {{ row.updTime }}
-        </template>
-      </el-table-column>
-    </el-table>
+    <div class="app-container">
+        <div class="filter-container">
+            <el-input v-model="listQuery.username" placeholder="用户名" size="small" style="width: 200px;" class="filter-item" @keyup.enter.native="handleFilter" />
+            <el-select v-model="listQuery.sort" size="small" style="width: 140px" class="filter-item" @change="handleFilter">
+                <el-option v-for="item in sortOptions" :key="item.key" :label="item.label" :value="item.key" />
+            </el-select>
+            <el-button v-waves class="filter-item" type="primary" size="small" icon="el-icon-search" @click="handleFilter">查询</el-button>
+            <el-button v-waves class="filter-item" type="primary" size="small" icon="el-icon-update" @click="handleTeamUpdate">更新</el-button>
+        </div>
+        <el-table
+                :key="tableKey"
+                v-loading="listLoading"
+                :data="list"
+                border
+                size="mini"
+                style="width: 100%;"
+                row-key="uid"
+                @sort-change="sortChange"
+        >
+            <el-table-column label="序号" type="index" width="50" />
+            <el-table-column label="用户名" width="200">
+                <template slot-scope="{row}">
+                    <span class="link-type">{{ row.username }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column label="采纳" width="110px" align="right">
+                <template slot-scope="{row}">
+                    <span>{{ row.resolveNum }}</span>
+                </template>
+            </el-table-column>
+            <el-table-column label="回答" width="110px" align="right">
+                <template slot-scope="{row}">
+                    {{ row.answerNum }}
+                </template>
+            </el-table-column>
+            <el-table-column label="%" width="80px" align="right">
+                <template slot-scope="{row}">
+                    {{ row.resolveRate }}
+                </template>
+            </el-table-column>
+            <el-table-column label="已休" align="right" width="95">
+                <template slot-scope="{row}">
+                    {{ row.stopDays }}
+                </template>
+            </el-table-column>
+            <el-table-column label="总假期" align="right" width="95">
+                <template slot-scope="{row}">
+                    {{ row.totalHolidays }}
+                </template>
+            </el-table-column>
+            <el-table-column label="考核周期" align="right" width="95">
+                <template slot-scope="{row}">
+                    {{ row.kpiHolidays }}
+                </template>
+            </el-table-column>
+            <el-table-column label="团龄假期" align="right" width="95">
+                <template slot-scope="{row}">
+                    {{ row.ageHolidays }}
+                </template>
+            </el-table-column>
+            <el-table-column label="最后答" align="center" width="95">
+                <template slot-scope="{row}">
+                    {{ row.ansDateStr }}
+                </template>
+            </el-table-column>
+            <el-table-column label="团龄" align="center" width="95">
+                <template slot-scope="{row}">
+                    {{ row.joinTimeStr }}
+                </template>
+            </el-table-column>
+            <el-table-column label="kpi" align="right" width="95">
+                <template slot-scope="{row}">
+                    {{ row.kpi }}
+                </template>
+            </el-table-column>
+            <el-table-column label="更新时间" align="center" width="150">
+                <template slot-scope="{row}">
+                    {{ row.updTime }}
+                </template>
+            </el-table-column>
+        </el-table>
 
-    <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
+        <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
 
-    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-      <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
-        <el-form-item label="Date" prop="timestamp">
-          <el-date-picker v-model="temp.timestamp" type="datetime" placeholder="Please pick a date" />
-        </el-form-item>
-        <el-form-item label="Title" prop="title">
-          <el-input v-model="temp.title" />
-        </el-form-item>
-        <el-form-item label="Status">
-          <el-select v-model="temp.status" class="filter-item" placeholder="Please select">
-            <el-option v-for="item in statusOptions" :key="item" :label="item" :value="item" />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="Imp">
-          <el-rate v-model="temp.importance" :colors="['#99A9BF', '#F7BA2A', '#FF9900']" :max="3" style="margin-top:8px;" />
-        </el-form-item>
-        <el-form-item label="Remark">
-          <el-input v-model="temp.remark" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="Please input" />
-        </el-form-item>
-      </el-form>
-      <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">
-          Cancel
-        </el-button>
-        <el-button type="primary" @click="dialogStatus==='create'?createData():updateData()">
-          Confirm
-        </el-button>
-      </div>
-    </el-dialog>
+        <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
+            <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
+                <el-form-item label="Date" prop="timestamp">
+                    <el-date-picker v-model="temp.timestamp" type="datetime" placeholder="Please pick a date" />
+                </el-form-item>
+                <el-form-item label="Title" prop="title">
+                    <el-input v-model="temp.title" />
+                </el-form-item>
+                <el-form-item label="Status">
+                    <el-select v-model="temp.status" class="filter-item" placeholder="Please select">
+                        <el-option v-for="item in statusOptions" :key="item" :label="item" :value="item" />
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="Imp">
+                    <el-rate v-model="temp.importance" :colors="['#99A9BF', '#F7BA2A', '#FF9900']" :max="3" style="margin-top:8px;" />
+                </el-form-item>
+                <el-form-item label="Remark">
+                    <el-input v-model="temp.remark" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="Please input" />
+                </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+                <el-button @click="dialogFormVisible = false">
+                    Cancel
+                </el-button>
+                <el-button type="primary" @click="dialogStatus==='create'?createData():updateData()">
+                    Confirm
+                </el-button>
+            </div>
+        </el-dialog>
 
-    <el-dialog :visible.sync="dialogPvVisible" title="Reading statistics">
-      <el-table :data="pvData" border fit highlight-current-row style="width: 100%">
-        <el-table-column prop="key" label="Channel" />
-        <el-table-column prop="pv" label="Pv" />
-      </el-table>
-      <span slot="footer" class="dialog-footer">
+        <el-dialog :visible.sync="dialogPvVisible" title="Reading statistics">
+            <el-table :data="pvData" border fit highlight-current-row style="width: 100%">
+                <el-table-column prop="key" label="Channel" />
+                <el-table-column prop="pv" label="Pv" />
+            </el-table>
+            <span slot="footer" class="dialog-footer">
         <el-button type="primary" @click="dialogPvVisible = false">Confirm</el-button>
       </span>
-    </el-dialog>
-  </div>
+        </el-dialog>
+    </div>
 </template>
 
 <script>
-import { fetchList, fetchPv, createArticle, updateArticle } from '@/api/member'
+import { fetchList, updateTeam } from '@/api/member'
 import { parseTime } from '@/utils'
-import Pagination from '@/components/Pagination' // secondary package based on el-pagination
+import waves from '@/directive/waves' // waves directive
+import Pagination from '@/components/Pagination'
 
 export default {
   name: 'ComplexTable',
   components: { Pagination },
+  directives: { waves },
   filters: {
     statusFilter(status) {
       const statusMap = {
@@ -137,31 +147,20 @@ export default {
   },
   data() {
     return {
-      breadList: [{
-        name: '首页',
-        path: '/home'
-      }, {
-        name: '系统设置',
-        path: '/setting'
-      }, {
-        name: '用户管理',
-        path: '/setting/usermanage'
-      }],
       tableKey: 0,
       list: null,
       total: 0,
       listLoading: true,
       listQuery: {
-        teamId: this.$route.params.teamId,
+        teamId: this.$route.path.substring(this.$route.path.lastIndexOf('/') + 1),
         page: 1,
         limit: 20,
         importance: undefined,
-        title: undefined,
+        title: '',
         type: undefined,
         sort: 'kpi'
       },
-      importanceOptions: [1, 2, 3],
-      // sortOptions: [{ label: 'ID Ascending', key: 'kpi' }, { label: 'ID Descending', key: '-id' }],
+      sortOptions: [{ label: 'kpi由低到高', key: 'kpi' }, { label: 'kpi由高到低', key: '-id' }],
       statusOptions: ['published', 'draft', 'deleted'],
       showReviewer: false,
       temp: {
@@ -196,14 +195,19 @@ export default {
     getList() {
       this.listLoading = true
       fetchList(this.listQuery).then(response => {
-        this.list = response.data.rows
-        this.total = response.data.total
+        this.list = response.data.rows || []
+        this.total = response.data.total || 0
         this.listLoading = false
       })
     },
     handleFilter() {
       this.listQuery.page = 1
       this.getList()
+    },
+    handleTeamUpdate() {
+      updateTeam(this.listQuery.teamId).then(response => {
+        this.getList()
+      })
     },
     handleModifyStatus(row, status) {
       this.$message({

@@ -1,6 +1,6 @@
 module.exports = {
 
-  title: '平凡的世界',
+  title: 'My Teams',
 
   /**
    * @type {boolean} true | false

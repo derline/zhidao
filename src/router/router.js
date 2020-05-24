@@ -3,33 +3,30 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
-/* Layout */
 import Layout from '@/layout'
 
 /**
- * Note: sub-menu only appear when route children.length >= 1
- * Detail see: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
+ * 文档：https://panjiachen.github.io/vue-element-admin-site/zh/guide/essentials/router-and-nav.html#%E9%85%8D%E7%BD%AE%E9%A1%B9
  *
- * hidden: true                   if set true, item will not show in the sidebar(default is false)
- * alwaysShow: true               if set true, will always show the root menu
- *                                if not set alwaysShow, when item has more than one children route,
- *                                it will becomes nested mode, otherwise not show the root menu
- * redirect: noRedirect           if set noRedirect will no redirect in the breadcrumb
- * name:'router-name'             the name is used by <keep-alive> (must set!!!)
- * meta : {
-    roles: ['admin','editor']    control the page roles (you can set multiple roles)
-    title: 'title'               the name show in sidebar and breadcrumb (recommend set)
-    icon: 'svg-name'             the icon show in the sidebar
-    breadcrumb: false            if set false, the item will hidden in breadcrumb(default is true)
-    activeMenu: '/example/list'  if set path, the sidebar will highlight the path you set
-  }
+ *  path: '/permission',
+ *  component: Layout, // 有这个，才有左边栏
+ *  redirect: '/permission/index', //重定向地址，在面包屑中点击会重定向去的地址
+ *  hidden: true, // 不在侧边栏线上
+ *  alwaysShow: true, //一直显示根路由
+ *  meta: { roles: ['admin','editor'] }, //你可以在根路由设置权限，这样它下面所以的子路由都继承了这个权限
+ *  children: [{
+ *    path: 'index',
+ *    component: ()=>import('permission/index'),
+ *    name: 'permission',
+ *    meta: {
+ *      title: 'permission',
+ *      icon: 'lock', //图标
+ *      roles: ['admin','editor'], //或者你可以给每一个子路由设置自己的权限
+ *      noCache: true // 不会被 <keep-alive> 缓存
+ *    }
+ *  }]
  */
 
-/**
- * constantRoutes
- * a base page that does not have permission requirements
- * all roles can be accessed
- */
 export const constantRoutes = [
   {
     path: '/login',
@@ -57,32 +54,19 @@ export const constantRoutes = [
   {
     path: '/team',
     component: Layout,
+    meta: { title: '团队', icon: 'peoples' },
     children: [{
-      path: '/team/:teamId',
-      name: 'Team',
-      component: () => import('@/views/team/member'),
-      props: true,
-      hidden: true,
-    }]
-  },
-  {
-    path: '/pf',
-    component: Layout,
-    children: [{
-      path: '/team/3010',
-      redirect: '/team/:teamId',
+      path: '3010',
       name: 'pf',
-      meta: { title: '平凡的世界', icon: 'peoples' }
-    }]
-  },
-  {
-    path: '/jj',
-    component: Layout,
-    redirect: '/team/:teamId',
-    children: [{
-      path: '/team/3824',
+      meta: { title: '平凡的世界', icon: 'peoples' },
+      component: () => import('@/views/team/member'),
+      props: true
+    }, {
+      path: '3824',
       name: 'jj',
-      meta: { title: '家居生活', icon: 'peoples' }
+      meta: { title: '家居生活', icon: 'peoples' },
+      component: () => import('@/views/team/member'),
+      props: true
     }]
   },
 
