@@ -6,13 +6,14 @@
                 <el-option v-for="item in sortOptions" :key="item.key" :label="item.label" :value="item.key" />
             </el-select>
             <el-button v-waves class="filter-item" type="primary" size="small" icon="el-icon-search" @click="handleFilter">查询</el-button>
-            <el-button v-waves class="filter-item" type="primary" size="small" icon="el-icon-update" @click="handleTeamUpdate">更新</el-button>
+            <el-button v-waves class="filter-item" type="primary" size="small" icon="el-icon-refresh-right" @click="handleTeamUpdate">更新</el-button>
+            <el-button v-waves class="filter-item" type="danger" size="small" icon="el-icon-delete" @click="handleMembersClean">清理</el-button>
         </div>
         <el-table
                 :key="tableKey"
                 v-loading="listLoading"
                 :data="list"
-                border
+                :border="false"
                 size="mini"
                 style="width: 100%;"
                 row-key="uid"
@@ -130,6 +131,7 @@ import { fetchList, updateTeam } from '@/api/member'
 import { parseTime } from '@/utils'
 import waves from '@/directive/waves' // waves directive
 import Pagination from '@/components/Pagination'
+import { cleanMembers } from '../../api/member'
 
 export default {
   name: 'ComplexTable',
@@ -206,6 +208,11 @@ export default {
     },
     handleTeamUpdate() {
       updateTeam(this.listQuery.teamId).then(response => {
+        this.getList()
+      })
+    },
+    handleMembersClean() {
+      cleanMembers(this.listQuery.teamId).then(response => {
         this.getList()
       })
     },
